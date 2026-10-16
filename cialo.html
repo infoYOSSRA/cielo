@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIELO COFFEE & BRUNCH - Menu Digitale</title>
+    <!-- خطوط تجريدية وفاخرة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-overlay: rgba(20, 15, 12, 0.72);
+            --card-bg: rgba(255, 250, 245, 0.92);
+            --brown-dark: #2A1810;
+            --brown-maroon: #4A2511;
+            --caramel: #C68B59;
+            --gold: #D4AF37;
+            --text-main: #221510;
+            --text-muted: #66554B;
+            --border-color: rgba(198, 139, 89, 0.25);
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            color: var(--text-main);
+            font-family: 'Cairo', 'Montserrat', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 50px;
+            position: relative;
+            background-color: #120c09;
+        }
+
+        /* صورة الخلفية مع الضبابية */
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('photo_2026-10-16_20-18-31.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.65);
+            transform: scale(1.05); /* لمنع حواف الضبابية */
+            z-index: -2;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.75) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* الهيدر والشعار */
+        header {
+            text-align: center;
+            padding: 35px 15px 20px;
+        }
+
+        .logo-circle {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            margin-bottom: 12px;
+            background-color: #FAF6EF;
+        }
+
+        .main-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: #FFF;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .sub-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* التنقل والسحب */
+        .categories-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 12px 8px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 15px;
+            z-index: 100;
+            background: rgba(30, 20, 15, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            scrollbar-width: none;
+        }
+
+        .categories-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #DDD;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background-color: var(--gold);
+            color: var(--brown-dark);
+            box-shadow: 0 3px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        /* أقسام القائمة */
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gold);
+            color: #FFF;
+        }
+
+        .section-header i {
+            font-size: 1.3rem;
+            color: var(--gold);
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* بطاقات العناصر */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(5px);
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold);
+        }
+
+        .item-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'Montserrat', 'Cairo', sans-serif;
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .price-badge {
+            background: linear-gradient(135deg, var(--brown-maroon), var(--brown-dark));
+            color: #FFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            border: 1px solid var(--gold);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .price-currency {
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #AAA;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الخلفية المطبقة بالضبابية والتراكب -->
+    <div class="bg-fixed"></div>
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+        <!-- الهيدر -->
+        <header>
+            <img src="photo_2026-10-16_20-17-33.jpg" alt="CIELO Logo" class="logo-circle">
+            <h1 class="main-title">CIELO</h1>
+            <div class="sub-title">COFFEE & BRUNCH</div>
+        </header>
+
+        <!-- شريط التصفح السريع -->
+        <nav class="categories-nav">
+            <button class="nav-btn active" onclick="filterCategory('all')">الكل</button>
+            <button class="nav-btn" onclick="filterCategory('cafe')">☕ CAFÉ</button>
+            <button class="nav-btn" onclick="filterCategory('capsule')">☕ CAFÉ CAPSULE</button>
+            <button class="nav-btn" onclick="filterCategory('the')">🍵 THÉ</button>
+            <button class="nav-btn" onclick="filterCategory('brunch')">🍳 BRUNCH</button>
+            <button class="nav-btn" onclick="filterCategory('sucre')">🥐 MENU SUCRÉ</button>
+            <button class="nav-btn" onclick="filterCategory('pancake')">🥞 CRÊPE & PANCAKE</button>
+            <button class="nav-btn" onclick="filterCategory('fondant')">🍰 FONDANT</button>
+            <button class="nav-btn" onclick="filterCategory('jus')">🥤 JUS & MOJITO</button>
+            <button class="nav-btn" onclick="filterCategory('smoothie')">🍧 SMOOTHIE</button>
+            <button class="nav-btn" onclick="filterCategory('mixologie')">🍹 MIXOLOGIE</button>
+        </nav>
+
+        <!-- 1. CAFÉ -->
+        <section class="menu-section" id="cafe">
+            <div class="section-header">
+                <i class="fa-solid fa-mug-hot"></i>
+                <h2 class="section-title">CAFÉ (القهوة والمشروبات الساخنة)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Lait</span><div class="price-badge">100 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Café (Capsule)</span><div class="price-badge">120 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Café au Lait</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Americano</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cappuccino</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cappuccino (Noisette / Vanille / Caramel)</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Latté</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Matcha</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Chocolat Chaude</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Ice Mocha</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Ice Café</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Ice Latté</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Macchiato</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Spanish Latté</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 2. CAFÉ CAPSULE -->
+        <section class="menu-section" id="capsule">
+            <div class="section-header">
+                <i class="fa-solid fa-cubes"></i>
+                <h2 class="section-title">CAFÉ CAPSULE (كبسولات القهوة)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Caps</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">L'Or</span><div class="price-badge">255 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Lavazza</span><div class="price-badge">200 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Nespresso</span><div class="price-badge">300 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 3. THÉ -->
+        <section class="menu-section" id="the">
+            <div class="section-header">
+                <i class="fa-solid fa-leaf"></i>
+                <h2 class="section-title">THÉ (الشاي)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Thé Maison</span><div class="price-badge">100 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Thé Citron</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Thé Menthe</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Thé Caramel</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Vervenne</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Ice Thé</span><div class="price-badge">150 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 4. BRUNCH -->
+        <section class="menu-section" id="brunch">
+            <div class="section-header">
+                <i class="fa-solid fa-utensils"></i>
+                <h2 class="section-title">BRUNCH (البرنش والموالح)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Panecillo Classique Pané</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Panecillo Saumcado</span><div class="price-badge">850 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Club Sandwich</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">New Yorké</span><div class="price-badge">750 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Bruschetta</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Croissant Salé Dinde Fumé</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Plateau Fromage</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Granola Bowl</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SUCRÉ -->
+        <section class="menu-section" id="sucre">
+            <div class="section-header">
+                <i class="fa-solid fa-cookie"></i>
+                <h2 class="section-title">MENU SUCRÉ (الحلويات والمخبوزات)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Brioche Perdue au Fruit</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cinnamon Rolls</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Brownies</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cookies</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Tiramisu</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Croissant Choco</span><div class="price-badge">900 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cielo Choco Pain</span><div class="price-badge">900 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Pâtisserie du Jour</span><div class="price-badge">Selon choix</div></div>
+            </div>
+        </section>
+
+        <!-- 6. CRÊPE, GAUFFRE & PANCAKE -->
+        <section class="menu-section" id="pancake">
+            <div class="section-header">
+                <i class="fa-solid fa-stroopwafel"></i>
+                <h2 class="section-title">CRÊPE, GAUFFRE & PANCAKE</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Nutella Crêpe</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Suchy Crêpe</span><div class="price-badge">550 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Vanilla Dream Crêpe</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Crêpe Fruit</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Crêpe Cielo</span><div class="price-badge">650 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Gauffre Nutella</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Gauffre Fruit</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Gauffre Cielo</span><div class="price-badge">650 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Pancake Fruit</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Fluffy Pancake</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Mini Pancake Fruit</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 7. FONDANT & SAN SEBASTIAN -->
+        <section class="menu-section" id="fondant">
+            <div class="section-header">
+                <i class="fa-solid fa-cake-candles"></i>
+                <h2 class="section-title">FONDANT & SAN SEBASTIAN</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Fondant Chocolat</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Fondant Fruit</span><div class="price-badge">650 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Fondant Pistache</span><div class="price-badge">700 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Fondant Cielo</span><div class="price-badge">800 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">San Sebastian Chocolat</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">San Sebastian Pistache</span><div class="price-badge">650 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 8. JUS NATUREL & MOJITO -->
+        <section class="menu-section" id="jus">
+            <div class="section-header">
+                <i class="fa-solid fa-glass-water"></i>
+                <h2 class="section-title">JUS NATUREL & MOJITO (العصائر والموهيتو)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Jus d'Orange</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Jus Fraise</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Jus Citron</span><div class="price-badge">300 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Jus Banane</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Cocktail Fruit de Saison</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Mojito Nature</span><div class="price-badge">400 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Mojito Fraise</span><div class="price-badge">350 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Blue Mojito</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Mojito Classique</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 9. SMOOTHIE & MILK SHAKE -->
+        <section class="menu-section" id="smoothie">
+            <div class="section-header">
+                <i class="fa-solid fa-ice-cream"></i>
+                <h2 class="section-title">SMOOTHIE & MILK SHAKE</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Smoothie Fraise</span><div class="price-badge">450 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Smoothie Banane</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Smoothie Cielo</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Milk Shake Nutella</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Milk Shake Fruits</span><div class="price-badge">550 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Milk Shake Cielo</span><div class="price-badge">650 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Milk Shake Lotus</span><div class="price-badge">550 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <!-- 10. MIXOLOGIE -->
+        <section class="menu-section" id="mixologie">
+            <div class="section-header">
+                <i class="fa-solid fa-martini-glass-citrus"></i>
+                <h2 class="section-title">MIXOLOGIE (الخلطات والكوكتيلات)</h2>
+            </div>
+            <div class="items-grid">
+                <div class="item-card"><span class="item-name">Bora Bora</span><div class="price-badge">550 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Pink Lady</span><div class="price-badge">550 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Pinacolada</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Blue Hawai</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Bahama</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Jasmine</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Fleur d'Amour</span><div class="price-badge">600 <span class="price-currency">DA</span></div></div>
+                <div class="item-card"><span class="item-name">Bob Marly</span><div class="price-badge">500 <span class="price-currency">DA</span></div></div>
+            </div>
+        </section>
+
+        <footer>
+            <p>CIELO COFFEE & BRUNCH - Bienvenue</p>
+        </footer>
+    </div>
+
+    <script>
+        function filterCategory(catId) {
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            const sections = document.querySelectorAll('.menu-section');
+            sections.forEach(sec => {
+                if (catId === 'all' || sec.id === catId) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
